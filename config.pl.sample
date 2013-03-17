@@ -1,0 +1,10 @@
+use strict;
+
++{
+    'TwitterToken' => {
+        consumer_key    => 'SETME',
+        consumer_secret => 'SETME',
+        access_token => 'SETME',
+        access_token_secret => 'SETME',
+    },
+};
