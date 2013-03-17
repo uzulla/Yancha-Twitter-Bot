@@ -7,4 +7,6 @@ use strict;
         access_token => 'SETME',
         access_token_secret => 'SETME',
     },
+    'track' => 'hachiojipm,hachioji.pm,hachiouji.pm,hachioujipm',
+    
 };

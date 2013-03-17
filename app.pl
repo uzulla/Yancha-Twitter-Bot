@@ -11,7 +11,7 @@ use URI::Escape;
 use Encode;
 
 my $config = do "$FindBin::Bin/config.pl";
-my $fail_limit = 3;
+my $fail_limit = 10;
 
 my $done = AnyEvent->condvar;
 
@@ -31,7 +31,7 @@ $create_listener = sub{
 		token           => $config->{TwitterToken}->{access_token},
 		token_secret    => $config->{TwitterToken}->{access_token_secret},
 		method          => "filter",
-		track           => "hachiojipm,hachioji.pm,hachiouji.pm,hachioujipm,yancha",
+		track           => $config->{track},
 		on_tweet        => sub {
 			my $tweet = shift;
 			say encode_utf8("$tweet->{user}{screen_name}: $tweet->{text}");
