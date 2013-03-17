@@ -34,7 +34,7 @@ $create_listener = sub{
 		track           => "hachiojipm,hachioji.pm,hachiouji.pm,hachioujipm,yancha",
 		on_tweet        => sub {
 			my $tweet = shift;
-			say "$tweet->{user}{screen_name}: $tweet->{text}";
+			say encode_utf8("$tweet->{user}{screen_name}: $tweet->{text}");
 			$post_yancha_message->("$tweet->{user}{screen_name}: $tweet->{text}");
 	  	},
 	    on_error => sub {
@@ -82,12 +82,13 @@ $get_yancha_auth_token = sub {
 
 $post_yancha_message = sub {
 	my $message = shift;
+	$message =~ s/#/＃/g;
 	my $req = AnyEvent::HTTP::Request->new({
 	    method => 'GET',
 	    uri  => 'http://yancha.hachiojipm.org:3000/api/post?token='.$yancha_auth_token.'&text='.uri_escape_utf8($message),
 	    cb   => sub {
 	    	my ($body, $headers) = shift;
-	    	say "past yancha: \"".decode_utf8($message)."\" yancha return-> ".$body;
+	    	say encode_utf8("past yancha: \"".$message."\" yancha return-> ".$body);
 	    	#TODO TOKEN失効時にTOKENを更新する必要がある。
 	    }
   	});
