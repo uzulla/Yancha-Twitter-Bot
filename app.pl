@@ -82,18 +82,17 @@ $get_yancha_auth_token = sub {
 
 $post_yancha_message = sub {
 	my $message = shift;
-  my $req = AnyEvent::HTTP::Request->new({
-    method => 'GET',
-    uri  => 'http://yancha.hachiojipm.org:3000/api/post?token='.$yancha_auth_token.'&text='.uri_escape_utf8($message),
-    cb   => sub {
-    	my ($body, $headers) = shift;
-    	say "past yancha: \"".decode($message)."\" yancha return-> ".$body;
-    	#TODO TOKEN失効時にTOKENを更新する必要がある。
-    }
-  });
-
-  my $http_req = $req->to_http_message;
-  $req->send();
+	my $req = AnyEvent::HTTP::Request->new({
+	    method => 'GET',
+	    uri  => 'http://yancha.hachiojipm.org:3000/api/post?token='.$yancha_auth_token.'&text='.uri_escape_utf8($message),
+	    cb   => sub {
+	    	my ($body, $headers) = shift;
+	    	say "past yancha: \"".decode_utf8($message)."\" yancha return-> ".$body;
+	    	#TODO TOKEN失効時にTOKENを更新する必要がある。
+	    }
+  	});
+	my $http_req = $req->to_http_message;
+	$req->send();
 };
 
 
