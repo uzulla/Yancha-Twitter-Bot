@@ -8,5 +8,5 @@ use strict;
         access_token_secret => 'SETME',
     },
     'track' => 'hachiojipm,hachioji.pm,hachiouji.pm,hachioujipm',
-    
+    'YanchaUrl' => 'http://yancha.hachiojipm.org:3000',
 };

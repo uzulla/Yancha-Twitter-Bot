@@ -65,7 +65,7 @@ $set_timer = sub {
 $get_yancha_auth_token = sub {
   my $req = AnyEvent::HTTP::Request->new({
     method => 'GET',
-    uri  => 'http://yancha.hachiojipm.org:3000/login?nick=yanchabot&token_only=1',
+    uri  => $config->{YanchaUrl}.'/login?nick=yanchabot&token_only=1',
     cb   => sub {
     	my ($body, $headers) = shift;
     	$yancha_auth_token = $body;
@@ -85,7 +85,7 @@ $post_yancha_message = sub {
 	$message =~ s/#/＃/g;
 	my $req = AnyEvent::HTTP::Request->new({
 	    method => 'GET',
-	    uri  => 'http://yancha.hachiojipm.org:3000/api/post?token='.$yancha_auth_token.'&text='.uri_escape_utf8($message),
+	    uri  => $config->{YanchaUrl}.'/api/post?token='.$yancha_auth_token.'&text='.uri_escape_utf8($message),
 	    cb   => sub {
 	    	my ($body, $headers) = shift;
 	    	say encode_utf8("past yancha: \"".$message."\" yancha return-> ".$body);
