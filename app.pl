@@ -34,8 +34,15 @@ $create_listener = sub{
 		track           => $config->{track},
 		on_tweet        => sub {
 			my $tweet = shift;
-			say encode_utf8("$tweet->{user}{screen_name}: $tweet->{text}");
-			$post_yancha_message->("$tweet->{user}{screen_name}: $tweet->{text}");
+
+			if($tweet->{disconnect}){
+				return;
+			}
+
+			if($tweet->{text}){
+				say encode_utf8("$tweet->{user}{screen_name}: $tweet->{text}");
+				$post_yancha_message->("$tweet->{user}{screen_name}: $tweet->{text}");
+			}
 	  	},
 	    on_error => sub {
 	      my $error = shift;
