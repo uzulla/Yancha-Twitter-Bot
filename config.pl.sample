@@ -9,4 +9,6 @@ use strict;
     },
     'track' => 'hachiojipm,hachioji.pm,hachiouji.pm,hachioujipm',
     'YanchaUrl' => 'http://yancha.hachiojipm.org:3000',
+    'YanchaTag' => '#PUBLIC',
+    'BotName'   => 'twitterbot'
 };
