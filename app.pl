@@ -43,7 +43,7 @@ sub create_listener {
                 warn "FAIL LIMIT OVER "; die;
             }
             undef $tw_stream_listener;
-            $bot->set_timer->(3);
+            $bot->set_timer(3);
         },
         timeout => 60,
     );
