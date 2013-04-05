@@ -1,3 +1,5 @@
+#!perl
+
 use strict;
 use utf8;
 use warnings;
@@ -6,23 +8,22 @@ use lib ("$FindBin::Bin/lib");
 use AnyEvent::Twitter::Stream;
 use AnyEvent::HTTP::Request;
 use 5.010;
-use Data::Dumper;
 use URI::Escape;
 use Encode;
 use Yancha::Bot;
 
 my $config = do "$FindBin::Bin/config.pl";
 my $fail_limit = 10;
-my $bot = Yancha::Bot->new($config, \&create_listener);
+my $bot = Yancha::Bot->new($config, \&callback);
 
 my $done = AnyEvent->condvar;
 
 say "start server";
-$bot->get_yancha_auth_token();
+$bot->up();
 
 $done->recv;
 
-sub create_listener {
+sub callback {
     my $tw_stream_listener; $tw_stream_listener = AnyEvent::Twitter::Stream->new(
         consumer_key    => $config->{TwitterToken}->{consumer_key},
         consumer_secret => $config->{TwitterToken}->{consumer_secret},
@@ -43,7 +44,7 @@ sub create_listener {
                 warn "FAIL LIMIT OVER "; die;
             }
             undef $tw_stream_listener;
-            $bot->set_timer(3);
+            $bot->callback_later(3);
         },
         timeout => 60,
     );

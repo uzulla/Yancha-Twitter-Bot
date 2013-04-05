@@ -11,7 +11,6 @@ WriteMakefile(
         'URI::Escape'               => '3.31',
         'Encode'                    => '2.49',
         'FindBin'                   => 0,
-        'Data::Dumper'              => 0,
     },
     MIN_PERL_VERSION => '5.010001',
 );
