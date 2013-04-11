@@ -11,9 +11,10 @@ use 5.010;
 use URI::Escape;
 use Encode;
 use Yancha::Bot;
+use Data::Dumper;
 
 my $config = do "$FindBin::Bin/config.pl";
-my $fail_limit = 10;
+my $fail_limit = 100;
 my $bot = Yancha::Bot->new($config, \&callback);
 
 my $done = AnyEvent->condvar;
@@ -33,9 +34,14 @@ sub callback {
         track           => $config->{track},
         on_tweet        => sub {
             my $tweet = shift;
-            my $tweet_str = "$tweet->{user}{screen_name}: $tweet->{text}";
-            say encode_utf8($tweet_str);
-            $bot->post_yancha_message($tweet_str);
+            if($tweet->{user}{screen_name} && $tweet->{text}){
+                my $tweet_str = "$tweet->{user}{screen_name}: $tweet->{text}";
+                say encode_utf8($tweet_str);
+                $bot->post_yancha_message($tweet_str);
+            }else{
+                warn 'Not normal tweet data';
+                warn Dumper($tweet);
+            }
         },
         on_error => sub {
             my $error = shift;
